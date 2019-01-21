@@ -24,7 +24,7 @@ fn sbox(i:T)-> T{
 
 }
 
-fn g_func(tab:&mut[T] ,rcon:T){
+fn AES_step(tab:&mut[T] ,rcon:T){
     //Perform key schedule AES steps
     let mut new_tab: [usize;4]= [0,0,0,0];
 
@@ -102,7 +102,7 @@ fn key_schedule(inputround:T, desiredround:T){
                 arr_tmp[i - 28] = work_on_key[i];
             }//OK
             // Perform key schedule step
-            g_func(&mut arr_tmp, rcon[7]);
+            AES_step(&mut arr_tmp, rcon[7]);
 
             for i in 0..4 {
                 work_on_key[i] = work_on_key_save[i] ^ arr_tmp[i];
@@ -142,7 +142,7 @@ fn key_schedule(inputround:T, desiredround:T){
             for i in 28..32{
                 arr_tmp[i-28]=work_on_key[i];
             }
-            g_func(&mut arr_tmp,rcon[round]);
+            AES_step(&mut arr_tmp,rcon[round]);
             for j in 0..4{
                 work_on_key[j]=work_on_key[j]^arr_tmp[j];
             }
